@@ -1,0 +1,145 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Corporate employee user profile with role-based access",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 120 },
+        "email": { "type": "string", "maxLength": 120 },
+        "avatar": { "type": "string", "maxLength": 500 },
+        "role": { "type": "string", "enum": ["super_admin", "admin", "manager", "employee"] },
+        "department": { "type": "string", "maxLength": 80 },
+        "position": { "type": "string", "maxLength": 80 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "location": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["online", "busy", "away", "in_meeting", "offline"] },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "name", "email", "role", "department", "position"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Social feed post or company announcement",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 120 },
+        "authorAvatar": { "type": "string", "maxLength": 500 },
+        "authorRole": { "type": "string", "maxLength": 60 },
+        "content": { "type": "string", "maxLength": 5000 },
+        "type": { "type": "string", "enum": ["standard", "announcement", "poll"] },
+        "isPinned": { "type": "boolean" },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "authorId", "authorName", "content", "type"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "Collaborative project task item in kanban board",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 3000 },
+        "status": { "type": "string", "enum": ["backlog", "todo", "in_progress", "review", "done"] },
+        "priority": { "type": "string", "enum": ["urgent", "high", "medium", "low"] },
+        "assigneeId": { "type": "string", "maxLength": 128 },
+        "deadline": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "title", "status", "priority"]
+    },
+    "Meeting": {
+      "title": "Meeting",
+      "description": "Scheduled team or company meeting session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "date": { "type": "string", "maxLength": 50 },
+        "startTime": { "type": "string", "maxLength": 20 },
+        "endTime": { "type": "string", "maxLength": 20 },
+        "meetLink": { "type": "string", "maxLength": 300 },
+        "organizerId": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "title", "date", "startTime", "endTime", "organizerId"]
+    },
+    "Document": {
+      "title": "Document",
+      "description": "Company document, SOP, or knowledge file",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "category": { "type": "string", "enum": ["sop", "guideline", "architecture", "handbook", "template", "legal"] },
+        "accessRole": { "type": "string", "enum": ["all", "manager", "admin"] },
+        "version": { "type": "string", "maxLength": 20 },
+        "uploadedBy": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "title", "category", "accessRole", "uploadedBy"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Chat message in direct or group channel",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "channelId": { "type": "string", "maxLength": 128 },
+        "senderId": { "type": "string", "maxLength": 128 },
+        "senderName": { "type": "string", "maxLength": 120 },
+        "content": { "type": "string", "maxLength": 4000 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "channelId", "senderId", "senderName", "content"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User notification alert",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "recipientId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["chat", "mention", "task", "meeting", "announcement"] },
+        "title": { "type": "string", "maxLength": 150 },
+        "message": { "type": "string", "maxLength": 500 },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "recipientId", "type", "title", "read"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Corporate employee user profiles"
+    },
+    "/posts/{postId}": {
+      "schema": "Post",
+      "description": "Corporate social feed posts"
+    },
+    "/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "Company tasks and kanban items"
+    },
+    "/meetings/{meetingId}": {
+      "schema": "Meeting",
+      "description": "Corporate meetings and calendar schedules"
+    },
+    "/documents/{documentId}": {
+      "schema": "Document",
+      "description": "Company document repository"
+    },
+    "/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Chat messages across direct and team channels"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "Real-time user notifications"
+    }
+  }
+}

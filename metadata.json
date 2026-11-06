@@ -1,0 +1,6 @@
+{
+  "name": "ASLI GROUP - Corporate Collaboration Hub",
+  "description": "Platform internal perusahaan modern yang responsif dengan integrasi basis data modern, menggabungkan Chat, Social Feed, Kanban Tasks, Meetings, Employee Directory, dan Document Center.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

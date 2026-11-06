@@ -1,0 +1,82 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Default Deny Catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        (request.auth.token.email != null && request.auth.token.email == 'saeful.rohman@asliri.id')
+      );
+    }
+
+    // 2. Users Collection
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create, update: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow delete: if isValidId(userId) && isAdmin();
+    }
+
+    // 3. Posts & Social Feed
+    match /posts/{postId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(postId) && request.resource.data.authorId == request.auth.uid;
+      allow update: if isSignedIn() && isValidId(postId) && (resource.data.authorId == request.auth.uid || isAdmin());
+      allow delete: if isSignedIn() && isValidId(postId) && (resource.data.authorId == request.auth.uid || isAdmin());
+    }
+
+    // 4. Tasks Collection (Kanban Board)
+    match /tasks/{taskId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(taskId);
+      allow update: if isSignedIn() && isValidId(taskId);
+      allow delete: if isSignedIn() && isValidId(taskId) && (resource.data.assigneeId == request.auth.uid || isAdmin());
+    }
+
+    // 5. Meetings Collection
+    match /meetings/{meetingId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(meetingId);
+      allow update: if isSignedIn() && isValidId(meetingId) && (resource.data.organizerId == request.auth.uid || isAdmin());
+      allow delete: if isSignedIn() && isValidId(meetingId) && (resource.data.organizerId == request.auth.uid || isAdmin());
+    }
+
+    // 6. Documents Collection
+    match /documents/{documentId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(documentId);
+      allow update: if isSignedIn() && isValidId(documentId) && (resource.data.uploadedBy == request.auth.uid || isAdmin());
+      allow delete: if isAdmin() || (isSignedIn() && isValidId(documentId) && resource.data.uploadedBy == request.auth.uid);
+    }
+
+    // 7. Messages Collection
+    match /messages/{messageId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(messageId) && request.resource.data.senderId == request.auth.uid;
+      allow update, delete: if isSignedIn() && isValidId(messageId) && resource.data.senderId == request.auth.uid;
+    }
+
+    // 8. Notifications Collection
+    match /notifications/{notificationId} {
+      allow read: if isSignedIn() && isValidId(notificationId) && resource.data.recipientId == request.auth.uid;
+      allow update: if isSignedIn() && isValidId(notificationId) && resource.data.recipientId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(notificationId);
+      allow delete: if isSignedIn() && isValidId(notificationId) && resource.data.recipientId == request.auth.uid;
+    }
+  }
+}

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>ASLI GROUP - Corporate Collaboration Hub</title>
+    <meta name="description" content="Platform internal perusahaan modern yang responsif dengan integrasi basis data modern, menggabungkan Chat, Social Feed, Kanban Tasks, Meetings, Employee Directory, dan Document Center." />
+    
+    <!-- PWA & Mobile Web App Meta Tags (iPhone & Android) -->
+    <meta name="theme-color" content="#0052cc" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="ASLI GROUP" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <meta property="og:title" content="ASLI GROUP - Corporate Collaboration Hub" />
+    <meta property="og:description" content="Platform internal perusahaan modern yang responsif dengan integrasi basis data modern, menggabungkan Chat, Social Feed, Kanban Tasks, Meetings, Employee Directory, dan Document Center." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('theme') || localStorage.getItem('WORKSPACE_THEME');
+          if (!saved) {
+            var full = localStorage.getItem('WORKSPACE_APP_themeSettings');
+            if (full) {
+              var parsed = JSON.parse(full);
+              saved = parsed && parsed.mode;
+            }
+          }
+          // Default to light mode as requested, only enable dark if explicitly saved as 'dark'
+          if (saved === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased selection:bg-red-500/20 selection:text-red-700 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

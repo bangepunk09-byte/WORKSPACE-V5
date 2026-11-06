@@ -1,0 +1,629 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --ui-radius: 24px;
+    --primary-color: #1e3a8a; /* Navy */
+    --accent-color: #dc2626;  /* Bright Red */
+    --bg-color: #ffffff;      /* White Base */
+    --chat-bubble-bg: #dc2626;
+    --chat-bubble-text: #ffffff;
+    --btn-hover-color: #991b1b;
+    --selector-active-color: #1e3a8a;
+    --icon-accent-color: #dc2626;
+  }
+  
+  html {
+    font-size: var(--app-font-size, 16.5px);
+    color-scheme: light;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
+  }
+
+  html.dark, .dark {
+    color-scheme: dark;
+    background-color: #0b0f19 !important;
+    color: #f4f4f5 !important;
+  }
+
+  .dark body {
+    background-color: #0b0f19 !important;
+    color: #f4f4f5 !important;
+  }
+
+  .dark .bento-card {
+    background-color: #131c31 !important;
+    border-color: #232f48 !important;
+    box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .dark .bento-card:hover {
+    border-color: #334263 !important;
+  }
+
+  .dark .bg-slate-900,
+  .dark .bg-slate-950,
+  .dark .bg-slate-900\/80,
+  .dark .bg-slate-900\/90,
+  .dark .bg-slate-950\/60,
+  .dark .bg-black {
+    background-color: #131c31 !important;
+  }
+
+  .dark .bg-slate-800,
+  .dark .bg-slate-800\/80,
+  .dark .bg-slate-800\/70,
+  .dark .bg-slate-800\/60,
+  .dark .bg-slate-800\/40,
+  .dark .bg-slate-900\/40 {
+    background-color: #1a253e !important;
+  }
+
+  .dark .border-slate-800,
+  .dark .border-slate-700,
+  .dark .border-slate-200 {
+    border-color: #232f48 !important;
+  }
+  
+  body {
+    font-family: var(--font-sans);
+    transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Dynamically bind UI corner radius to cards and major panels */
+  .rounded-3xl,
+  .rounded-2xl,
+  .bento-card {
+    border-radius: var(--ui-radius, 24px) !important;
+  }
+
+  /* Dynamically bind UI corner radius to buttons, dropdowns, inputs, and tags to align with setting customization */
+  .rounded-xl,
+  .rounded-lg,
+  button:not([class*="rounded-full"]):not([class*="rounded-none"]),
+  select,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+  textarea {
+    border-radius: var(--btn-radius, var(--ui-radius, 16px)) !important;
+  }
+
+  /* Balanced, centered Select dropdown styling across light/dark themes */
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.1em 1.1em;
+    padding-right: 2.25rem !important;
+    padding-left: 0.875rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    line-height: 1.3 !important;
+    vertical-align: middle;
+    box-sizing: border-box;
+  }
+
+  /* Standardized Form Input Fields & Dropdowns Design System */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+  textarea,
+  select {
+    min-height: 42px;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    font-size: var(--app-font-size, 20.5px);
+  }
+
+  /* Default horizontal padding only for inputs without custom padding classes */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([class*="pl-"]),
+  textarea:not([class*="pl-"]) {
+    padding-left: 0.875rem !important;
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([class*="pr-"]),
+  textarea:not([class*="pr-"]) {
+    padding-right: 0.875rem !important;
+  }
+
+  /* Dedicated Protection for Search & Icon Inputs so text never overlaps with icons */
+  input[class*="pl-12"], .pl-12 { padding-left: 3.25rem !important; }
+  input[class*="pl-11"], .pl-11 { padding-left: 2.875rem !important; }
+  input[class*="pl-10"], .pl-10 { padding-left: 2.625rem !important; }
+  input[class*="pl-9"], .pl-9   { padding-left: 2.375rem !important; }
+  input[class*="pl-8"], .pl-8   { padding-left: 2.125rem !important; }
+  /* Universal Theme Accent & Element Bindings - Unified Design System */
+  .bg-red-600,
+  .bg-rose-600,
+  .bg-indigo-600,
+  .bg-blue-600,
+  .btn-theme-primary,
+  .btn-primary {
+    background-color: var(--accent-color, #dc2626) !important;
+    border-color: var(--accent-color, #dc2626) !important;
+    color: #ffffff !important;
+  }
+  .bg-red-600:hover,
+  .bg-rose-600:hover,
+  .bg-indigo-600:hover,
+  .bg-blue-600:hover,
+  .hover\:bg-red-700:hover,
+  .hover\:bg-rose-700:hover,
+  .hover\:bg-indigo-700:hover,
+  .hover\:bg-blue-700:hover,
+  .btn-theme-primary:hover,
+  .btn-primary:hover {
+    background-color: var(--btn-hover-color, #1e293b) !important;
+    border-color: var(--btn-hover-color, #1e293b) !important;
+    color: #ffffff !important;
+  }
+  .text-red-600,
+  .text-rose-600,
+  .text-red-500 {
+    color: var(--icon-accent-color, var(--accent-color, #dc2626)) !important;
+  }
+  .border-red-600,
+  .border-rose-600,
+  .border-red-500 {
+    border-color: var(--accent-color, #dc2626) !important;
+  }
+  .tab-active-theme,
+  [data-active="true"],
+  .active-filter-pill,
+  button.bg-slate-900 {
+    background-color: var(--selector-active-color, #0f172a) !important;
+    border-color: var(--selector-active-color, #0f172a) !important;
+    color: #ffffff !important;
+  }
+  button.bg-slate-900:hover {
+    background-color: var(--btn-hover-color, #1e293b) !important;
+    border-color: var(--btn-hover-color, #1e293b) !important;
+    color: #ffffff !important;
+  }
+}
+
+/* Background Pattern Presets (Applied to body and any .bg-pattern container) */
+
+/* 1. Symmetrical Mathematical Matrix Dot Pattern (Crisp vector circles) */
+body.bg-pattern-dots,
+.bg-pattern-dots {
+  background-image: radial-gradient(circle at 12px 12px, rgba(100, 116, 139, 0.28) 1.5px, transparent 1.6px) !important;
+  background-size: 24px 24px !important;
+  background-position: 0 0 !important;
+}
+html.dark body.bg-pattern-dots,
+html.dark .bg-pattern-dots,
+.dark .bg-pattern-dots {
+  background-image: radial-gradient(circle at 12px 12px, rgba(255, 255, 255, 0.18) 1.5px, transparent 1.6px) !important;
+  background-size: 24px 24px !important;
+  background-position: 0 0 !important;
+}
+
+/* 2. Precision Architectural Geometric Grid (Sharp, symmetrical technical lines) */
+body.bg-pattern-grid,
+.bg-pattern-grid {
+  background-image: 
+    linear-gradient(to right, rgba(100, 116, 139, 0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(100, 116, 139, 0.14) 1px, transparent 1px) !important;
+  background-size: 32px 32px !important;
+  background-position: 0 0 !important;
+}
+html.dark body.bg-pattern-grid,
+html.dark .bg-pattern-grid,
+.dark .bg-pattern-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px) !important;
+  background-size: 32px 32px !important;
+  background-position: 0 0 !important;
+}
+
+/* 3. Fluid Gradient Mesh */
+body.bg-pattern-mesh,
+.bg-pattern-mesh {
+  background-image: radial-gradient(at 15% 15%, rgba(59, 130, 246, 0.22) 0px, transparent 55%),
+                    radial-gradient(at 85% 85%, rgba(239, 68, 68, 0.18) 0px, transparent 55%),
+                    radial-gradient(at 50% 50%, rgba(147, 51, 234, 0.12) 0px, transparent 50%) !important;
+}
+html.dark body.bg-pattern-mesh,
+html.dark .bg-pattern-mesh,
+.dark .bg-pattern-mesh {
+  background-image: radial-gradient(at 15% 15%, rgba(59, 130, 246, 0.28) 0px, transparent 55%),
+                    radial-gradient(at 85% 85%, rgba(220, 38, 38, 0.22) 0px, transparent 55%),
+                    radial-gradient(at 50% 50%, rgba(147, 51, 234, 0.16) 0px, transparent 50%) !important;
+}
+
+/* 4. Aurora Dynamic Ambient Glow */
+body.bg-pattern-aurora,
+.bg-pattern-aurora {
+  background-image: radial-gradient(at 50% 0%, rgba(99, 102, 241, 0.26) 0px, transparent 65%),
+                    radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.2) 0px, transparent 55%),
+                    radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.16) 0px, transparent 55%) !important;
+}
+html.dark body.bg-pattern-aurora,
+html.dark .bg-pattern-aurora,
+.dark .bg-pattern-aurora {
+  background-image: radial-gradient(at 50% 0%, rgba(99, 102, 241, 0.32) 0px, transparent 65%),
+                    radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.24) 0px, transparent 55%),
+                    radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.18) 0px, transparent 55%) !important;
+}
+
+/* 5. Custom Solid Color Background */
+body.bg-pattern-solid,
+.bg-pattern-solid {
+  background-color: var(--custom-bg-solid, #f8fafc) !important;
+  background-image: none !important;
+}
+html.dark body.bg-pattern-solid,
+html.dark .bg-pattern-solid,
+.dark .bg-pattern-solid {
+  background-color: var(--custom-bg-solid, #0b0f19) !important;
+  background-image: none !important;
+}
+
+/* 6. Custom Gradient Background */
+body.bg-pattern-gradient,
+.bg-pattern-gradient {
+  background-image: var(--custom-bg-gradient, linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 50%, #fef3c7 100%)) !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.7);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.4);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.7);
+}
+
+/* Dedicated Tab & Filter Slider Scrollbar */
+.tab-slider-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+}
+.tab-slider-scroll::-webkit-scrollbar {
+  height: 5px;
+}
+.tab-slider-scroll::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.6);
+  border-radius: 9999px;
+  margin-inline: 4px;
+}
+.tab-slider-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.45);
+  border-radius: 9999px;
+}
+.tab-slider-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.7);
+}
+.dark .tab-slider-scroll::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.6);
+}
+.dark .tab-slider-scroll::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.5);
+}
+.dark .tab-slider-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.8);
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth micro-interaction animations */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(0.98); }
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-float-subtle {
+  animation: float-subtle 4s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+/* Interactive Card Lift Utility */
+.hover-lift {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* Chat Bubble Sending & Pop Animations */
+@keyframes chatBubblePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) translateY(16px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.04) translateY(-2px);
+  }
+  80% {
+    transform: scale(0.98) translateY(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes chatSlideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(28px) scale(0.85);
+  }
+  65% {
+    opacity: 1;
+    transform: translateX(-4px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes chatSlideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-28px) scale(0.85);
+  }
+  65% {
+    opacity: 1;
+    transform: translateX(4px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes bubbleRipple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+  }
+}
+
+.chat-bubble-animate-outgoing {
+  animation: chatSlideInRight 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, bubbleRipple 0.8s ease-out;
+  transform-origin: bottom right;
+}
+
+.chat-bubble-animate-incoming {
+  animation: chatSlideInLeft 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  transform-origin: bottom left;
+}
+
+.chat-bubble-pop {
+  animation: chatBubblePop 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Friendly Bento Card Design System - Compact & Refined */
+.bento-card {
+  border-radius: 22px;
+  background-color: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 2px 10px -2px rgba(15, 23, 42, 0.02), 0 1px 2px rgba(15, 23, 42, 0.01);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.18s ease;
+}
+.dark .bento-card {
+  background-color: #121215 !important;
+  border-color: #27272a !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+}
+.bento-card:hover {
+  border-color: rgba(203, 213, 225, 1);
+  box-shadow: 0 6px 20px -2px rgba(15, 23, 42, 0.05);
+}
+.dark .bento-card:hover {
+  border-color: #3f3f46 !important;
+  box-shadow: 0 6px 22px -2px rgba(0, 0, 0, 0.6);
+}
+
+/* Friendly Pastel Chips System */
+.chip-sky {
+  background-color: #f0f7ff;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
+}
+.dark .chip-sky {
+  background-color: rgba(8, 47, 73, 0.5);
+  color: #38bdf8;
+  border-color: rgba(3, 105, 161, 0.6);
+}
+
+.chip-emerald {
+  background-color: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+.dark .chip-emerald {
+  background-color: rgba(6, 78, 59, 0.5);
+  color: #34d399;
+  border-color: rgba(5, 150, 105, 0.6);
+}
+
+.chip-orange {
+  background-color: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #fed7aa;
+}
+.dark .chip-orange {
+  background-color: rgba(124, 45, 18, 0.5);
+  color: #fb923c;
+  border-color: rgba(194, 65, 12, 0.6);
+}
+
+.chip-purple {
+  background-color: #faf5ff;
+  color: #9333ea;
+  border: 1px solid #e9d5ff;
+}
+.dark .chip-purple {
+  background-color: rgba(88, 28, 135, 0.5);
+  color: #c084fc;
+  border-color: rgba(126, 34, 206, 0.6);
+}
+
+.chip-rose {
+  background-color: #fff1f2;
+  color: #e11d48;
+  border: 1px solid #fecdd3;
+}
+.dark .chip-rose {
+  background-color: rgba(136, 19, 55, 0.5);
+  color: #fb7185;
+  border-color: rgba(190, 18, 60, 0.6);
+}
+
+/* Gradient Pill Action */
+.btn-gradient-ai {
+  background: linear-gradient(135deg, #f97316 0%, #ec4899 50%, #6366f1 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 15px -1px rgba(236, 72, 153, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-gradient-ai:hover {
+  box-shadow: 0 6px 20px 0 rgba(236, 72, 153, 0.45);
+  transform: translateY(-1px);
+}
+.btn-gradient-ai:active {
+  transform: scale(0.97);
+}
+
+/* Kanban Card Physics */
+.kanban-task-card {
+  transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2), box-shadow 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2), border-color 0.18s ease;
+  will-change: transform, box-shadow;
+  position: relative;
+}
+.kanban-task-card:hover {
+  transform: translateY(-2px) scale(1.006);
+  box-shadow: 0 14px 28px -4px rgba(15, 23, 42, 0.09), 0 4px 8px -2px rgba(15, 23, 42, 0.04);
+  z-index: 20;
+}
+.dark .kanban-task-card:hover {
+  box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.45);
+}
+.kanban-task-card:active,
+.kanban-task-card.is-dragging {
+  cursor: grabbing !important;
+  transform: translateY(-8px) scale(1.03) rotate(1.5deg) !important;
+  box-shadow: 0 24px 48px -10px rgba(15, 23, 42, 0.25), 0 0 0 2px rgba(59, 130, 246, 0.45) !important;
+  z-index: 50;
+}
+
+.chat-bubble-outgoing {
+  background-color: var(--chat-bubble-bg, #dc2626) !important;
+  color: var(--chat-bubble-text, #ffffff) !important;
+}
+
+/* Custom Interaction & Universal Theme Elements Utility */
+.interactive-hover-btn,
+.theme-hover-btn {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease, transform 0.15s ease;
+}
+.interactive-hover-btn:hover,
+.theme-hover-btn:hover {
+  background-color: var(--btn-hover-color, #1e293b) !important;
+  color: #ffffff !important;
+}
+
+.interactive-active-selector,
+.theme-active-selector,
+[data-active="true"].theme-nav-item,
+.tab-active-theme {
+  background-color: var(--selector-active-color, #0f172a) !important;
+  border-color: var(--selector-active-color, #0f172a) !important;
+  color: #ffffff !important;
+}
+
+.interactive-accent-icon,
+.theme-icon-accent {
+  color: var(--icon-accent-color, #dc2626) !important;
+}
+
+/* Primary Theme CTA Button */
+.btn-theme-primary {
+  background-color: var(--accent-color, #dc2626) !important;
+  color: #ffffff !important;
+  border-color: var(--accent-color, #dc2626) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-theme-primary:hover {
+  background-color: var(--btn-hover-color, #1e293b) !important;
+  border-color: var(--btn-hover-color, #1e293b) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.25);
+}
+
+@keyframes emoji-fly {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-500px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-emoji-fly {
+  animation: emoji-fly linear forwards;
+}
